@@ -45,5 +45,5 @@ To optimize efficiency and elevate the project quality, we utilized **AI-powered
 
 --- 
 
-### 🔗 **Live Demo:** [SamsungEvolve: https://code-veterans-reimagine-round2.vercel.app/ ]  
+### 🔗 **Live Demo:** [ SamsungEvolve: https://code-veterans-reimagine-round2.vercel.app/ ]  
 
