@@ -47,43 +47,66 @@ function menu() {
     { fstId: "#buis", scdId: "#buisness-cont" },
   ];
 
+  let activeContainer = null;
+
   hoverMenus.forEach((menu) => {
     const trigger = document.querySelector(menu.fstId);
     const container = document.querySelector(menu.scdId);
+    const landingPage = document.querySelector("#page1");
 
     function showContainer() {
+      if (activeContainer && activeContainer !== container) {
+        hideContainer(activeContainer);
+      }
+
       container.style.visibility = "visible";
       gsap.to(container, {
         opacity: 1,
-        scale: 1.05,
+        scale: 1.1,
         duration: 0.5,
         ease: "power2.out",
+        display: "block",
       });
+
+      activeContainer = container;
     }
 
-    function hideContainer() {
-      gsap.to(container, {
+    function hideContainer(targetContainer = container) {
+      gsap.to(targetContainer, {
         opacity: 0,
         scale: 0.9,
         duration: 0.3,
         ease: "power2.in",
         onComplete: () => {
-          container.style.visibility = "hidden";
+          targetContainer.style.visibility = "hidden";
+          if (activeContainer === targetContainer) {
+            activeContainer = null;
+          }
         },
       });
     }
 
-    trigger.addEventListener("mouseenter", showContainer);
-    trigger.addEventListener("mouseleave", () => {
-      setTimeout(() => {
-        if (!container.matches(":hover")) {
-          hideContainer();
-        }
-      }, 100);
-    });
+    function toggleContainer(event) {
+      event.stopPropagation();
+      if (activeContainer === container) {
+        hideContainer();
+      } else {
+        showContainer();
+      }
+    }
 
-    container.addEventListener("mouseenter", showContainer);
-    container.addEventListener("mouseleave", hideContainer);
+    function hideOnClickOutside(event) {
+      if (
+        activeContainer &&
+        !activeContainer.contains(event.target) &&
+        event.target !== trigger
+      ) {
+        hideContainer();
+      }
+    }
+
+    trigger.addEventListener("click", toggleContainer);
+    document.addEventListener("click", hideOnClickOutside);
   });
 }
 menu();
@@ -487,7 +510,7 @@ function features() {
       scroller: "body",
       scrub: 1,
       start: "top 120%",
-      end: "bottom 90%",
+      end: "bottom 92%",
       // markers: true,
     },
   });
@@ -583,7 +606,7 @@ function colors() {
       scrub: 2,
       // markers: true,
       start: "bottom 150%",
-      end: "100% 80%",
+      end: "100% 90%",
     },
   });
   tl.from("#pen-box img", {
